@@ -2,16 +2,24 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import urllib.request
-
+from time import sleep
 # Function to scrape brand names
 def scrape_brands(url, output_file):
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    brand_names = [item.get_text() for item in soup.find_all('div', class_='mw-category-group')]
+    for i in range(3):
+        try:
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()  # Check if the request was successful
+            soup = BeautifulSoup(response.text, 'html.parser')
+            brand_names = [item.get_text() for item in soup.find_all('div', class_='mw-category-group')]
     
-    with open(output_file, 'w') as f:
-        for brand in brand_names:
-            f.write(f"{brand}\n")
+            with open(output_file, 'w') as f:
+                for brand in brand_names:
+                    f.write(f"{brand}\n")
+        except requests.exceptions.RequestException as e:
+            print(f"Attempt {i + 1} failed: {e}")
+            if i < 3 - 1:
+                sleep(5)  # Wait before retrying
+    
 
 # Function to download images (you need to define the image URLs or sources)
 def download_images(image_urls, output_folder):
