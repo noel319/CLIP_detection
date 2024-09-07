@@ -8,10 +8,10 @@ import torch
 from torch import nn
 from transformers import DistilBertTokenizer
 
-import config as CFG
-from dataset import CLIPDataset, get_transforms
-from CLIP import CLIPModel
-from utils import AvgMeter, get_lr
+import src.config as CFG
+from src.dataset import CLIPDataset, get_transforms
+from src.CLIP import CLIPModel
+from src.utils import AvgMeter, get_lr
 
 
 def make_train_valid_dfs():
@@ -106,9 +106,10 @@ def main():
         
         if valid_loss.avg < best_loss:
             best_loss = valid_loss.avg
-            torch.save(model.state_dict(), "best.pt")
-            print("Saved Best Model!")
+            torch.save(model.state_dict(), "model/best.pt")
+            print(f"{train_loss}Saved Best Model!")
 
 
 if __name__ == "__main__":
     main()
+    

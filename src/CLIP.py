@@ -2,8 +2,8 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 
-import config as CFG
-from modules import ImageEncoder, TextEncoder, ProjectionHead
+import src.config as CFG
+from src.modules import ImageEncoder, TextEncoder, ProjectionHead
 
 
 class CLIPModel(nn.Module):

@@ -6,9 +6,9 @@ from tqdm import tqdm
 from transformers import DistilBertTokenizer
 import matplotlib.pyplot as plt
 
-import config as CFG
-from main import build_loaders
-from CLIP import CLIPModel
+import src.config as CFG
+from src.train import build_loaders, make_train_valid_dfs
+from src.CLIP import CLIPModel
 
 def get_image_embeddings(valid_df, model_path):
     tokenizer = DistilBertTokenizer.from_pretrained(CFG.text_tokenizer)
@@ -54,3 +54,7 @@ def find_matches(model, image_embeddings, query, image_filenames, n=9):
         ax.axis("off")
     
     plt.show()
+if __name__ == "__main__":
+    _, valid_df = make_train_valid_dfs()
+    model, image_embeddings = get_image_embeddings(valid_df, "model/best.pt")
+    find_matches(model, image_embeddings, query="tea", image_filenames=valid_df['image'].values, n=1)
