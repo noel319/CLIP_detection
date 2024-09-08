@@ -106,7 +106,7 @@ def main():
         
         if valid_loss.avg < best_loss:
             best_loss = valid_loss.avg
-            torch.save(model.state_dict(), "model/best.pt")
+            torch.save(model.state_dict(), "models/best.pt")
             print(f"{train_loss}Saved Best Model!")
 
 
