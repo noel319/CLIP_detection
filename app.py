@@ -45,7 +45,11 @@ def find_matches(model, image_embeddings, query, image_filenames, n=1):
     dot_similarity = text_embeddings_n @ image_embeddings_n.T
     _, indices = torch.topk(dot_similarity.squeeze(0),1)
     matches = image_filenames[indices[::1]]
-    
+    if matches == args.f:
+        print("TRUE")
+        
+    else:
+        print("False")    
     _, axes = plt.subplots(1, 1, figsize=(10, 10))
     image = cv2.imread(f"{CFG.image_path}/{matches}")
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
